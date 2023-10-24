@@ -9,5 +9,4 @@
 struct User: Codable, Identifiable {
     let id: Int
     let name, username, email: String
-    let phone, website: String
 }

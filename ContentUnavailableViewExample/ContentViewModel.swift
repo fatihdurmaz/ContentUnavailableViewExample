@@ -11,7 +11,7 @@ import Alamofire
 class ContentViewModel: ObservableObject {
     
     @Published var users : [User] = []
-    @Published var searchText: String = ""
+    @Published var searchText:String = ""
     
     func fetchUsers() {
         AF.request("https://jsonplaceholder.typicode.com/users")
@@ -27,6 +27,7 @@ class ContentViewModel: ObservableObject {
     
     var filteredUsers: [User] {
         guard !searchText.isEmpty else { return self.users }
+        
         return users.filter { user in
             user.name.lowercased().contains(searchText.lowercased())
         }

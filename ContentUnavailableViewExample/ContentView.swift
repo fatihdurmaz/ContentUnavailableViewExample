@@ -9,12 +9,14 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var viewModel = ContentViewModel()
+    
     var body: some View {
         NavigationStack {
             VStack {
                 List(viewModel.filteredUsers) { item in
                     HStack {
                         Text("\(item.id)")
+                            .font(.title2)
                             .padding()
                             .foregroundStyle(.white)
                             .background(.blue)
@@ -24,7 +26,6 @@ struct ContentView: View {
                             Text(item.name)
                                 .bold()
                             Text(item.email)
-                            
                         }
                     }
                 }
@@ -32,14 +33,22 @@ struct ContentView: View {
             .onAppear{
                 viewModel.fetchUsers()
             }
-            .navigationTitle("Users")
             .searchable(text: $viewModel.searchText)
-            .overlay{
-              if viewModel.filteredUsers.isEmpty {
-                ContentUnavailableView.search
-              }
+            .overlay {
+                if viewModel.filteredUsers.isEmpty {
+                    ContentUnavailableView.search(text: viewModel.searchText)
+                    /*
+                    ContentUnavailableView{
+                        Label("No Results", systemImage: "tray.fill")
+                            .bold()
+                            .foregroundStyle(.red)
+                    } description: {
+                        Text("Not found search")
+                    }
+                     */
+                }
             }
-            
+            .navigationTitle("Users")
         }
     }
 }
